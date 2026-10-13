@@ -204,7 +204,7 @@ list it measures the **current** page without navigating — use that for the op
 the open sidecart and the cart page. `trace-cart-box.js` handles the sidecart paths (one run per
 path) and `sample-flash.js` the B10 pre-init flash. Per banner it returns: box, `href`, size
 name in the image URL, natural vs rendered size, `cropW`/`cropH` (px lost after
-`object-fit: cover`), slide size and border, radius on image/link/slide, position index, centre
+`object-fit: cover`), slide size and border, radius on image/link/slide plus the neighbouring tile's radius (`tileRadius`), position index, centre
 hit-test, **overlaps** (arrows/labels painted over the banner), `alt`, image KB (`null` when the
 image CDN hides timing — then fetch each size once with `page.request.get(src)` for the real
 weight; the network log is too noisy). Keep logic in the script files and return values compact
@@ -223,7 +223,7 @@ weight; the network log is too noisy). Keep logic in the script files and return
 | B6 | Text within banner cut off | crop px **and** the element screenshot: does text/CTA/logo actually lose pixels? |
 | B7 | Covers the whole tile, tile border hidden | banner rect = slide rect (±1px), no slide border, `overlaps` empty |
 | B8 | Not shown in some recoms (e.g. 404) | per page type, the expected box has it and the others don't (that is correct); the sidecart has it on every add-to-cart path |
-| B9 | Styling parity | radius/border/shadow of banner (image, link **and** slide) vs the neighbouring tiles |
+| B9 | Styling parity (NOTE) | radius/border/shadow of banner (image, link **and** slide) vs `tileRadius` of the neighbouring product tile; a difference is a NOTE, not a finding |
 | B10 | Load behaviour | image weight; a flash of the banner at the wrong size before the slider initialises (`sample-flash.js`, on the cart page and one other page type, all four viewports) |
 
 Add every card checklist line as its own manifest item and answer it in the card-reconciliation
@@ -250,6 +250,10 @@ table.
   - a box loaded by a later request — the sidecart/upsell after an add-to-cart, the search
     overlay — is judged on its own. With only one banner in the campaign, all of this is still
     decidable.
+- **Styling parity (B9) is a NOTE.** Rounded banner corners next to square tiles (or the reverse),
+  a different border or shadow: it can be deliberate, so record it as `VERDICT: INFO` with the
+  measured banner and tile values, list it under "Notes" in the report and add one operator
+  question. Never FAIL or WARN, never count it as a finding.
 - **Don't call a crop a stretch.** B4 FAILs only on real distortion; lost content is B6.
 - **Cut-off needs a visible loss.** Crop px on text-free artwork are a WARN with the safe-zone
   advice for the campaign owner; text/CTA visibly clipped is FAIL Medium.
@@ -264,8 +268,8 @@ table.
 - **Severity.** High = banner or its box missing/broken for shoppers (live box or live campaign),
   or a wrong/leftover size that renders nothing. Medium = text visibly cut off, wrong
   destination, persistently oversized image, tablet format that loses content, gaps in the tile.
-  Low = cosmetic or transient (arrows over the banner, rounded corners, a sub-second flash before
-  the slider starts). WARN = needs an operator answer. Calibration (qa-checklists): a mostly-PASS
+  Low = cosmetic or transient (arrows over the banner, a sub-second flash before the slider
+  starts). WARN = needs an operator answer. Calibration (qa-checklists): a mostly-PASS
   report with few findings is a success — never inflate.
 
 ### 5. Report and handoff

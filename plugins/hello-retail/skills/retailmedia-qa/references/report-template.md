@@ -68,6 +68,10 @@ before → after measurements with screenshots; or "None — no design changed d
 ## Passes with measurements
 [Crop matrix page × viewport (cropW/cropH), whole-tile equality, URL/tracking, 404, positions.]
 
+## Notes — styling (not findings)
+| Page · viewport | Banner radius (img/link/slide) | Tile radius | Border / shadow | Operator question |
+[B9: only rows where banner and tile differ; "None — banner matches the tiles" otherwise]
+
 ## NOTE — known template issues
 [standing entries, per-site status — mostly N/A for banners]
 

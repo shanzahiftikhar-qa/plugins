@@ -95,6 +95,12 @@ async (page) => {
           slide: Math.round(sr.width) + 'x' + Math.round(sr.height),
           ...crop,
           radius: { img: cs(img).borderRadius, link: cs(c).borderRadius, slide: cs(slide).borderRadius },
+          // neighbouring product tile, for the B9 styling-parity NOTE
+          tileRadius: (() => {
+            const ts = sib.find(x => x !== slide && x.querySelector('.hr-product'));
+            const t = ts && ts.querySelector('.hr-product');
+            return t ? { tile: cs(t).borderRadius, slide: cs(ts).borderRadius } : null;
+          })(),
           slideBorder: cs(slide).borderTopWidth + ' ' + cs(slide).borderTopStyle,
           index: sib.indexOf(slide), siblings: sib.length,
           hit: el ? el.tagName + '.' + String(el.className).slice(0, 25) : null,
