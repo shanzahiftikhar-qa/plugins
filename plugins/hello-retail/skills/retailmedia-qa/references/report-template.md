@@ -69,8 +69,8 @@ before → after measurements with screenshots; or "None — no design changed d
 [Crop matrix page × viewport (cropW/cropH), whole-tile equality, URL/tracking, 404, positions.]
 
 ## Notes — styling (not findings)
-| Page · viewport | Banner radius (img/link/slide) | Tile radius | Border / shadow | Operator question |
-[B9: only rows where banner and tile differ; "None — banner matches the tiles" otherwise]
+| Viewport | Banner radius (img/link/slide) | Category-page tile radius | Border / shadow | Operator question |
+[B9, measured against the shop's own category page: only rows where they differ; "None — banner matches the category-page tiles" otherwise]
 
 ## NOTE — known template issues
 [standing entries, per-site status — mostly N/A for banners]
